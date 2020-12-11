@@ -42,7 +42,7 @@ export class Template {
         return delete this.#template[name];
     }
 
-    check( obj, strict = false ) {
+    check( obj, strict = true ) {
         Validator.isTypeOf(obj, 'object', `Object to check (${obj}) should be an object`);
         if( obj === null ) return false;
         
