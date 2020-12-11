@@ -19,4 +19,10 @@ export default class Validator {
             throw new RangeError(error);
         }
     }
+
+    static notNull( obj, error = `Argument (${obj}) is null` ) {
+        if( obj === null ) {
+            throw new TypeError(error);
+        }
+    }
 }
