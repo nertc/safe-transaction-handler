@@ -20,7 +20,7 @@ export class Template {
         if( types.some(type =>
             Object.getOwnPropertyNames(templateTypesEnum).every(property =>
                 templateTypesEnum[property] !== type)) ) {
-            throw new TypeError(`At least one of the ${types} don't satisfy ${templateTypesEnum}`);
+            throw new TypeError(`At least one of the types don't satisfy templateTypesEnum`);
         }
 
         this.#template[name] = types;
@@ -31,7 +31,7 @@ export class Template {
     addAll( ...args ) {
         if( args.length === 0 ) return false;
         if( args.some(arg => !(arg instanceof Array)) ) {
-            throw new TypeError(`At least one of the ${args} is not an Array`);
+            throw new TypeError(`At least one of the Arguments is not an Array`);
         }
         return args.every(arg => this.add(...arg));
     }
@@ -43,18 +43,19 @@ export class Template {
     }
 
     check( obj, strict = true ) {
-        Validator.isTypeOf(obj, 'object', `Object to check (${obj}) should be an object`);
+        Validator.isTypeOf(obj, 'object', `Object to check (${typeof obj === 'symbol' ? 'symbol' : obj}) should be an object`);
         if( obj === null ) return false;
         
         if( strict && Object.getOwnPropertyNames(obj).some( name => this.#template[name] === undefined ) ){
             return false;
         }
+        
         return Object.getOwnPropertyNames(this.#template).every( name => {
             if( this.#template[name] instanceof Template ) {
-                return obj[name] === 'object' && this.#template[name].check(obj[name], strict);
+                return typeof obj[name] === 'object' && this.#template[name].check(obj[name], strict);
             }
 
-            return this.#template[name].every(type => {
+            return this.#template[name].some(type => {
                 if( type === templateTypesEnum.ASYNC ) {
                     return typeof obj[name] === 'function' && obj[name][Symbol.toStringTag] === 'AsyncFunction';
                 }
