@@ -48,7 +48,7 @@ export class Template {
         }
         if( obj === null ) return false;
         
-        if( strict && Object.getOwnPropertyNames(obj).some( name => this.#template[name] === undefined ) ){
+        if( strict && ( Object.getOwnPropertyNames(obj).some( name => this.#template[name] === undefined ) || Object.getOwnPropertySymbols(obj).length ) ){
             return false;
         }
         

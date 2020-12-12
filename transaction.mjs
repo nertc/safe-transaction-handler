@@ -30,7 +30,7 @@ export default class Transaction {
 
     async dispatch( scenario ) {
         this.status = 0;
-        if( !this.validateScenario( scenario ) || scenario.some(step => Object.getOwnPropertySymbols(step).length) ) {
+        if( !this.validateScenario( scenario ) ) {
             throw new TypeError(`Scenario is not compatible`);
         }
 
