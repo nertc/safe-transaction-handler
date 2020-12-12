@@ -1,3 +1,4 @@
+// JSON.parse(JSON.stringify) loses data
 export default function deepCopy( obj ) {
     if( typeof obj !== 'object' || obj === null ) {
         return obj;
