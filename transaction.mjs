@@ -29,16 +29,21 @@ export default class Transaction {
     }
 
     async dispatch( scenario ) {
+        this.status = 0;
         if( !this.validateScenario( scenario ) ) {
             throw new TypeError(`Scenario is no compatible`);
+        }
+
+        const sortedSteps = new Map();
+        scenario.forEach(step => sortedSteps.set(step.index, step));
+
+        if( sortedSteps.get(scenario.length).restore !== undefined ) {
+            throw new TypeError("Last step of the scenario mustnt't have a restore function");
         }
 
         this.status = 4;
         this.store = {};
         this.logs = [];
-
-        const sortedSteps = new Map();
-        scenario.forEach(step => sortedSteps.set(step.index, step));
 
         await this.#call( sortedSteps );
     }
