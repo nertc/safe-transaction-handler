@@ -1,3 +1,4 @@
+import CustomError from './error.mjs';
 import Transaction from './transaction.mjs';
 
 const scenario = [
@@ -25,8 +26,11 @@ const transaction = new Transaction();
             console.log(logs);
     } catch (err) {
             // log detailed error
-            console.error(err.stack + '\n', err.log ?? '');
-            if( err.logs )  console.log(err.logs);
-            console.log(transaction.statusText);
+            if( err instanceof CustomError ) {
+                err.print();
+            } else {
+                console.log(err);
+            }
     }
+    console.log(transaction.statusText);
 })();

@@ -34,15 +34,13 @@ export default class Transaction {
         }
 
         this.status = 4;
-        this.store = null;
+        this.store = {};
         this.logs = [];
 
         const sortedSteps = new Map();
         scenario.forEach(step => sortedSteps.set(step.index, step));
 
         await this.#call( sortedSteps );
-
-        this.store = null;
     }
 
     async #call( steps ) {
@@ -53,6 +51,7 @@ export default class Transaction {
             this.logs.push(log);
             if( log.error !== null ) {
                 await this.#rollback(steps, index);
+                this.store = null;
                 return false;
             }
         }
@@ -92,7 +91,7 @@ export default class Transaction {
         };
         try{
             const storeBefore = deepCopy(this.store);
-            this.store = await step[functionName](this.store);
+            await step[functionName](this.store);
             const storeAfter = deepCopy(this.store);
             const error = null;
             log = {
@@ -114,6 +113,7 @@ export default class Transaction {
 
     validateScenario( scenario ) {
         Validator.isInstanceOf(scenario, Array, `Scenario must be an Array`);
+        if( scenario.length === 0 ) return true;
         
         if( scenario.some(step => !stepTemplate.check(step)) ) {
             throw TypeError(`At least one of the scenario's steps doesn't setisfy template`);
