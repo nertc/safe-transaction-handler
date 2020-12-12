@@ -37,7 +37,7 @@ export default class Transaction {
         const sortedSteps = new Map();
         scenario.forEach(step => sortedSteps.set(step.index, step));
 
-        if( sortedSteps.get(scenario.length).restore !== undefined ) {
+        if( scenario.length && sortedSteps.get(scenario.length).restore !== undefined ) {
             throw new TypeError("Last step of the scenario mustnt't have a restore function");
         }
 
