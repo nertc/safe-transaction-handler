@@ -43,7 +43,9 @@ export class Template {
     }
 
     check( obj, strict = true ) {
-        Validator.isTypeOf(obj, 'object', `Object to check (${typeof obj === 'symbol' ? 'symbol' : obj}) should be an object`);
+        if( typeof obj !== 'object' ){
+            Validator.isTypeOf(obj, 'object', `Object to check (${typeof obj === 'symbol' ? "symbol" : obj}) should be an object`);
+        }
         if( obj === null ) return false;
         
         if( strict && Object.getOwnPropertyNames(obj).some( name => this.#template[name] === undefined ) ){
