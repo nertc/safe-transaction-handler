@@ -30,8 +30,8 @@ export default class Transaction {
 
     async dispatch( scenario ) {
         this.status = 0;
-        if( !this.validateScenario( scenario ) ) {
-            throw new TypeError(`Scenario is no compatible`);
+        if( !this.validateScenario( scenario ) || scenario.some(step => Object.getOwnPropertySymbols(step).length) ) {
+            throw new TypeError(`Scenario is not compatible`);
         }
 
         const sortedSteps = new Map();
