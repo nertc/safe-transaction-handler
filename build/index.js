@@ -205,7 +205,7 @@ class Transaction {
         }
         return log;
     }
-    validateScenario(target, propertyName, descriptor) {
+    static validateScenario(target, propertyName, descriptor) {
         const method = descriptor.value;
         descriptor.value = function () {
             if (!(Transaction.scenario in target)) {
@@ -232,7 +232,7 @@ class Transaction {
 }
 Transaction.scenario = Symbol('Scenario');
 __decorate([
-    this.validateScenario,
+    Transaction.validateScenario,
     __param(0, Validator.define(Transaction.scenario)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
@@ -246,9 +246,7 @@ const scenario = [
             description: 'This action is responsible for reading the most popular customers'
         },
         // callback for main execution
-        call: async (store) => { },
-        // callback for rollback
-        restore: async (store) => { }
+        call: async (store) => { store['a'] = 5; },
     }
 ];
 const transaction = new Transaction();
