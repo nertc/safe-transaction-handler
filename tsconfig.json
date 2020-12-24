@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "module": "system",
+      "moduleResolution": "node",
+      "target": "es2017",
+      "lib": ["dom", "es2017"],
+      "skipLibCheck": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "outFile": "./build/index.js"
+    },
+    "include": [
+      "./template.ts",
+      "./copy.ts",
+      "./validator.ts",
+      "./error.ts",
+      "./transaction.ts",
+      "./index.ts"
+    ]
+}  
