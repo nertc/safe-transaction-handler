@@ -28,7 +28,7 @@ class Transaction {
         }
     }
 
-    @this.validateScenario
+    @Transaction.validateScenario
     async dispatch( @Validator.define(Transaction.scenario) scenario: Array<stepTemplate> ): Promise<void> {
         this.status = 0;
 
@@ -116,7 +116,7 @@ class Transaction {
         return log;
     }
 
-    validateScenario(
+    static validateScenario(
         target: object,
         propertyName: string,
         descriptor: TypedPropertyDescriptor<Function>
